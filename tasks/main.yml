@@ -1,0 +1,11 @@
+- name: Install the WordPress filter
+  copy:
+    src: files/wordpress-filter.conf
+    dest: /etc/fail2ban/filter.d/wordpress.conf
+  notify: restart fail2ban
+  
+- name: Install the WordPress jail
+  copy:
+    src: files/wordpress-jail.conf
+    dest: /etc/fail2ban/jail.d/wordpress.conf
+  notify: restart fail2ban

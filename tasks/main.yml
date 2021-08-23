@@ -1,11 +1,24 @@
-- name: Install the WordPress filter
-  copy:
-    src: files/wordpress-filter.conf
-    dest: /etc/fail2ban/filter.d/wordpress.conf
+- name: Remove old WP files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/fail2ban/filter.d/wordpress.conf
+    - /etc/fail2ban/jail.d/wordpress.conf
   notify: restart fail2ban
-  
-- name: Install the WordPress jail
+
+- name: Install the filters
   copy:
-    src: files/wordpress-jail.conf
-    dest: /etc/fail2ban/jail.d/wordpress.conf
+    src: "{{ item }}"
+    dest: /etc/fail2ban/filter.d/
+  with_fileglob:
+      - files/filters/*
+  notify: restart fail2ban
+
+- name: Install the jails
+  copy:
+    src: "{{ item }}"
+    dest: /etc/fail2ban/jail.d/
+  with_fileglob:
+      - files/jails/*
   notify: restart fail2ban

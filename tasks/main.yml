@@ -22,3 +22,9 @@
   with_fileglob:
       - files/jails/*
   notify: restart fail2ban
+
+- name: Install the greenlist
+  ansible.builtin.template:
+    src: templates/jails/greenlist.conf.j2
+    dest: /etc/fail2ban/jail.d/greenlist.conf
+  notify: restart fail2ban

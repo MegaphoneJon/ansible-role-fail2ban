@@ -19,3 +19,13 @@
     src: templates/jails/greenlist.conf.j2
     dest: /etc/fail2ban/jail.d/greenlist.conf
   notify: restart fail2ban
+
+- name: Ensure a "permanent blocks" file exists
+  copy:
+    content: ""
+    dest: /etc/fail2ban/permanentblocks.txt
+    force: false
+    group: root
+    owner: root
+    mode: 0600
+
